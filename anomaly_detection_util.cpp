@@ -58,6 +58,17 @@ Line linear_reg(Point** points,int size){
     return Line(a , b);
 }
 
+float dev(Point p,Point** points,int size){
+    Line line = linear_reg(points,size);
+    
+    return dev(p , line);
+}
+
+float dev(Point p, Line l){
+
+    return std::abs(l.f(p.x)-p.y);
+}
+
 int main(){
     float x [5] = {20,30,50,66,77}; 
     //std::cout << var(x,5) << std::endl;
@@ -74,3 +85,5 @@ int main(){
     std::cout << l.a << l.b << std::endl;
     return 0;
 }
+
+

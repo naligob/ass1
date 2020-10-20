@@ -31,4 +31,4 @@ float dev(Point p,Point** points,int size);
 // returns the deviation between point Pand the line
 float dev(Point p, Line l);
 
-#endif 
+#endif
