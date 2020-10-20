@@ -1,3 +1,5 @@
+#ifndef ANOMALY_DETECTION_UTIL_H
+#define ANOMALY_DETECTION_UTIL_H
 // returns the variance of X and Y
 float var(float* x, int size);
 // returns the covariance of X and Y
@@ -11,7 +13,7 @@ public:
         const float a,b;
         Line(float a, float b):a(a),b(b){}
         float f(float x){
-                return a*x+b;
+                return a * x + b;
         }
 };
 
@@ -28,3 +30,5 @@ Line linear_reg(Point** points,int size);
 float dev(Point p,Point** points,int size);
 // returns the deviation between point Pand the line
 float dev(Point p, Line l);
+
+#endif 

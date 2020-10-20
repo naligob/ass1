@@ -1,5 +1,8 @@
 #include <iostream>
 #include <string>
+#include <cmath>
+#include "anomaly_detection_util.h"
+
 // returns the expectation of value 
 float valOfExpectation(float* x,int size);
 
@@ -12,21 +15,14 @@ float valOfExpectation(float* x,int size){
     return sum / size; 
 }
 
-// func to math the power of 2
-float powOfTwo(float x);
-
-float powOfTwo(float x){
-
-    return x * x;
-}
-
 float var(float* x, int size){
     float sum = 0;
     for (int i = 0; i < size; i++){
-        sum += powOfTwo(x[i] - valOfExpectation(x , size));
+        sum += std::pow(x[i] - valOfExpectation(x , size),2);
+
     }
     
-    return sum / size;  
+    return sum / size;
 }
 
 float cov(float* x, float* y, int size){
@@ -39,19 +35,42 @@ float cov(float* x, float* y, int size){
 
     return multy / size;
 }
+
 float pearson(float* x, float* y, int size){
-
-
-
-
-
-    return 0;   //defult
+    
+    return cov(x,y,size) / std::sqrt(var(x,size)*var(y,size));   
 }
+
+Line linear_reg(Point** points,int size){
+    float arrX[size] , arrY[size];
+    for(int i =0;i < size; i++){
+        arrX[i] = points[i]->x;
+        arrY[i] = points[i]->y;
+    }
+
+    float a = cov(arrX,arrY,size) / var(arrX,size);
+
+    float xMid = valOfExpectation(arrX , size);
+    float yMid = valOfExpectation(arrY , size);
+    
+    float b = yMid - a * xMid;
+
+    return Line(a , b);
+}
+
 int main(){
-    float x [5] = {5,12,18,23,45}; 
+    float x [5] = {20,30,50,66,77}; 
     //std::cout << var(x,5) << std::endl;
-    float y [5] = {2,8,18,20,28};
+    float y [5] = {4,7,9,13,20};
+    Point *points[5];
+    for(int i = 0;i < 5;i++){
+        points[i] = new Point(x[i],y[i]);
+    }
+    // Point points[5][];
+    
     // std::cout << cov(x,y,5) << std::endl;
-    std::cout << cov(x,y,5) << std::endl;
+    // std::cout << pearson(x,y,5) << std::endl;
+    Line l = linear_reg(points,5);
+    std::cout << l.a << l.b << std::endl;
     return 0;
 }
